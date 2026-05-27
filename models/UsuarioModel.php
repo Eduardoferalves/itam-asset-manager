@@ -1,6 +1,6 @@
 <?php
 /**
- * Model de UsuÃ¡rio
+ * Model de Usuário
  */
 class UsuarioModel {
     private $db;
@@ -10,8 +10,8 @@ class UsuarioModel {
     }
 
     /**
-     * Busca um usuÃ¡rio pelo email
-     * Assinatura ObrigatÃ³ria: findByEmail(string $email): ?array
+     * Busca um usuário pelo email
+     * Assinatura Obrigatória: findByEmail(string $email): ?array
      */
     public function findByEmail(string $email): ?array {
         $stmt = $this->db->prepare("SELECT id_usuario, nome, email, senha_hash FROM usuario WHERE email = :email LIMIT 1");

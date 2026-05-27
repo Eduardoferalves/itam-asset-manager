@@ -1,12 +1,12 @@
 <?php
-// Calcular estatÃ­sticas rÃ¡pidas
+// Calcular estatísticas rápidas
 $custoTotalConsolidado = 0.00;
 $totalManutencoes = 0;
 $ativoMaisCaro = 'Nenhum';
 $maiorCusto = 0.00;
 
 if (!empty($custos)) {
-    // Como a query jÃ¡ retorna ordenada por custo descrescente, o primeiro Ã© o mais custoso
+    // Como a query já retorna ordenada por custo descrescente, o primeiro é o mais custoso
     $ativoMaisCaro = $custos[0]['patrimonio'];
     $maiorCusto = (float)$custos[0]['custo_total'];
     
@@ -19,17 +19,17 @@ if (!empty($custos)) {
 
 <div class="row align-items-center mb-4">
     <div class="col-12 col-md-6">
-        <h1 class="text-white mb-1"><i class="bi bi-bar-chart-line me-2 text-info"></i>Custos e RelatÃ³rios</h1>
-        <p class="text-secondary mb-0">Consolidado financeiro de manutenÃ§Ãµes acumuladas por ativo de TI</p>
+        <h1 class="text-white mb-1"><i class="bi bi-bar-chart-line me-2 text-info"></i>Custos e Relatórios</h1>
+        <p class="text-secondary mb-0">Consolidado financeiro de manutenções acumuladas por ativo de TI</p>
     </div>
     <div class="col-12 col-md-6 text-md-end mt-3 mt-md-0">
         <a href="?modulo=relatorio&acao=exportar" class="btn btn-primary-neon px-4 py-2">
-            <i class="bi bi-file-pdf me-1 text-danger-subtle fw-bold"></i> Exportar RelatÃ³rio PDF
+            <i class="bi bi-file-pdf me-1 text-danger-subtle fw-bold"></i> Exportar Relatório PDF
         </a>
     </div>
 </div>
 
-<!-- Grid de MÃ©tricas Financeiras -->
+<!-- Grid de Métricas Financeiras -->
 <div class="row g-3 mb-4">
     <div class="col-12 col-md-4">
         <div class="card card-glass p-3 d-flex flex-row align-items-center">
@@ -49,7 +49,7 @@ if (!empty($custos)) {
             </div>
             <div>
                 <h4 class="text-white mb-0"><?= $totalManutencoes ?></h4>
-                <span class="text-secondary small">Total de IntervenÃ§Ãµes</span>
+                <span class="text-secondary small">Total de Intervenções</span>
             </div>
         </div>
     </div>
@@ -75,17 +75,17 @@ if (!empty($custos)) {
     <?php if (empty($custos)): ?>
         <div class="text-center py-5">
             <i class="bi bi-bar-chart text-secondary fs-1 mb-3"></i>
-            <h4 class="text-secondary">Nenhum dado financeiro disponÃ­vel</h4>
-            <p class="text-secondary opacity-75 small">Cadastre ativos e registre manutenÃ§Ãµes para habilitar o relatÃ³rio.</p>
+            <h4 class="text-secondary">Nenhum dado financeiro disponível</h4>
+            <p class="text-secondary opacity-75 small">Cadastre ativos e registre manutenções para habilitar o relatório.</p>
         </div>
     <?php else: ?>
         <div class="table-responsive">
             <table class="table table-glass align-middle w-100">
                 <thead>
                     <tr>
-                        <th style="width: 25%">PatrimÃ´nio</th>
+                        <th style="width: 25%">Patrimônio</th>
                         <th style="width: 35%">Departamento Alocado</th>
-                        <th style="width: 20%" class="text-center">Quantidade de ManutenÃ§Ãµes</th>
+                        <th style="width: 20%" class="text-center">Quantidade de Manutenções</th>
                         <th style="width: 20%" class="text-end">Custo Total Acumulado</th>
                     </tr>
                 </thead>

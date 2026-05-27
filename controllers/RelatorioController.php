@@ -1,6 +1,6 @@
 <?php
 /**
- * Controller de RelatÃ³rios e ExportaÃ§Ãµes
+ * Controller de Relatórios e Exportações
  */
 class RelatorioController {
     private $db;
@@ -12,7 +12,7 @@ class RelatorioController {
     }
 
     /**
-     * Exibe o painel de relatÃ³rios com custos acumulados por ativo
+     * Exibe o painel de relatórios com custos acumulados por ativo
      */
     public function index() {
         $custos = $this->manutencaoModel->obterCustosAgrupados();
@@ -25,11 +25,11 @@ class RelatorioController {
     }
 
     /**
-     * Exporta o relatÃ³rio consolidado de custos para PDF usando a FPDF
-     * REGRA CRÃTICA DE BUFFER: NÃ£o inclui header.php nem footer.php e encerra estritamente com output/exit
+     * Exporta o relatório consolidado de custos para PDF usando a FPDF
+     * REGRA CRÍTICA DE BUFFER: Não inclui header.php nem footer.php e encerra estritamente com output/exit
      */
     public function exportar() {
-        // Limpar qualquer buffer anterior para evitar corrupÃ§Ã£o de binÃ¡rios no PDF
+        // Limpar qualquer buffer anterior para evitar corrupção de binários no PDF
         if (ob_get_level()) {
             ob_end_clean();
         }
@@ -37,46 +37,46 @@ class RelatorioController {
         // Importar FPDF 1.86 baixada de forma limpa na lib
         require_once 'lib/fpdf/fpdf.php';
 
-        // Buscar dados do relatÃ³rio
+        // Buscar dados do relatório
         $dados = $this->manutencaoModel->obterCustosAgrupados();
 
-        // 1. Criar instÃ¢ncia FPDF (OrientaÃ§Ã£o P - Retrato, mm, Formato A4)
+        // 1. Criar instância FPDF (Orientação P - Retrato, mm, Formato A4)
         $pdf = new FPDF('P', 'mm', 'A4');
         $pdf->SetMargins(10, 10, 10);
         $pdf->AddPage();
         
-        // 2. CabeÃ§alho do Documento (Design Minimalista e Limpo)
+        // 2. Cabeçalho do Documento (Design Minimalista e Limpo)
         $pdf->SetFont('Helvetica', 'B', 16);
         $pdf->SetTextColor(15, 23, 42); // Slate 900
-        $pdf->Cell(190, 10, utf8_decode('SISTEMA ITAM - GESTÃƒO DE ATIVOS DE TI'), 0, 1, 'C');
+        $pdf->Cell(190, 10, utf8_decode('SISTEMA ITAM - GESTÃO DE ATIVOS DE TI'), 0, 1, 'C');
         
         $pdf->SetFont('Helvetica', '', 10);
         $pdf->SetTextColor(100, 116, 139); // Slate 500
-        $pdf->Cell(190, 6, utf8_decode('RelatÃ³rio Consolidado de Custos de ManutenÃ§Ã£o por Ativo'), 0, 1, 'C');
+        $pdf->Cell(190, 6, utf8_decode('Relatório Consolidado de Custos de Manutenção por Ativo'), 0, 1, 'C');
         
-        // Data de emissÃ£o
+        // Data de emissão
         $dataEmissao = date('d/m/Y H:i:s');
         $pdf->Cell(190, 6, utf8_decode("Emitido em: {$dataEmissao}"), 0, 1, 'C');
         
         $pdf->Ln(8);
         
-        // 3. Linha divisÃ³ria estÃ©tica
+        // 3. Linha divisória estética
         $pdf->SetDrawColor(226, 232, 240); // Slate 200
         $pdf->SetLineWidth(0.5);
         $pdf->Line(10, $pdf->GetY(), 200, $pdf->GetY());
         $pdf->Ln(6);
 
-        // 4. CabeÃ§alho da Tabela
-        // DimensÃµes ObrigatÃ³rias: PatrimÃ´nio (40mm), Departamento (60mm), Qtd ManutenÃ§Ãµes (40mm), Custo Total (50mm, Alinhamento R)
+        // 4. Cabeçalho da Tabela
+        // Dimensões Obrigatórias: Patrimônio (40mm), Departamento (60mm), Qtd Manutenções (40mm), Custo Total (50mm, Alinhamento R)
         $pdf->SetFillColor(241, 245, 249); // Slate 100
         $pdf->SetTextColor(51, 65, 85); // Slate 700
         $pdf->SetDrawColor(203, 213, 225); // Slate 300
         $pdf->SetLineWidth(0.2);
         
         $pdf->SetFont('Helvetica', 'B', 10);
-        $pdf->Cell(40, 9, utf8_decode(' PatrimÃ´nio'), 1, 0, 'L', true);
+        $pdf->Cell(40, 9, utf8_decode(' Patrimônio'), 1, 0, 'L', true);
         $pdf->Cell(60, 9, utf8_decode(' Departamento'), 1, 0, 'L', true);
-        $pdf->Cell(40, 9, utf8_decode(' Qtd. ManutenÃ§Ãµes'), 1, 0, 'C', true);
+        $pdf->Cell(40, 9, utf8_decode(' Qtd. Manutenções'), 1, 0, 'C', true);
         $pdf->Cell(50, 9, utf8_decode('Custo Total '), 1, 1, 'R', true);
 
         // 5. Linhas da Tabela
@@ -85,13 +85,13 @@ class RelatorioController {
         
         $totalGeralCustos = 0.00;
         $totalGeralManutencoes = 0;
-        $fill = false; // AlternÃ¢ncia de cores de linha
+        $fill = false; // Alternância de cores de linha
         
         foreach ($dados as $linha) {
             $totalGeralCustos += (float)$linha['custo_total'];
             $totalGeralManutencoes += (int)$linha['qtd_manutencoes'];
             
-            // Formatando valores para exibiÃ§Ã£o no PDF
+            // Formatando valores para exibição no PDF
             $patrimonio = ' ' . $linha['patrimonio'];
             $departamento = ' ' . $linha['departamento_nome'];
             $qtd = $linha['qtd_manutencoes'];
@@ -117,14 +117,14 @@ class RelatorioController {
         $totalCustoFormatado = 'R$ ' . number_format($totalGeralCustos, 2, ',', '.') . ' ';
         $pdf->Cell(50, 9, utf8_decode($totalCustoFormatado), 1, 1, 'R', true);
 
-        // 7. RodapÃ© de Assinatura e Controle
+        // 7. Rodapé de Assinatura e Controle
         $pdf->Ln(15);
         $pdf->SetFont('Helvetica', 'I', 8);
         $pdf->SetTextColor(148, 163, 184); // Slate 400
-        $pdf->Cell(190, 4, utf8_decode('Documento gerado automaticamente pelo Sistema de GestÃ£o de Ativos ITAM.'), 0, 1, 'C');
-        $pdf->Cell(190, 4, utf8_decode('PadrÃ£o MVC Customizado (Vanilla PHP) | Banco de Dados MySQL (PDO)'), 0, 1, 'C');
+        $pdf->Cell(190, 4, utf8_decode('Documento gerado automaticamente pelo Sistema de Gestão de Ativos ITAM.'), 0, 1, 'C');
+        $pdf->Cell(190, 4, utf8_decode('Padrão MVC Customizado (Vanilla PHP) | Banco de Dados MySQL (PDO)'), 0, 1, 'C');
 
-        // 8. Encerramento Estrito conforme Regra CrÃ­tica
+        // 8. Encerramento Estrito conforme Regra Crítica
         $pdf->Output('relatorio.pdf', 'D');
         exit;
     }

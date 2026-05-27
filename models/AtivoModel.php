@@ -11,7 +11,7 @@ class AtivoModel {
 
     /**
      * Lista ativos aplicando filtros opcionais e utilizando LEFT JOIN
-     * Assinatura ObrigatÃ³ria: listarComFiltros(?int $id_categoria, ?string $status, ?string $patrimonio): array
+     * Assinatura Obrigatória: listarComFiltros(?int $id_categoria, ?string $status, ?string $patrimonio): array
      */
     public function listarComFiltros(?int $id_categoria, ?string $status, ?string $patrimonio): array {
         $sql = "SELECT a.*, c.descricao as categoria_nome, d.nome as departamento_nome, f.nome_empresa as fornecedor_nome 
@@ -38,7 +38,7 @@ class AtivoModel {
             $params['patrimonio'] = '%' . $patrimonio . '%';
         }
 
-        // Ordenar por data de aquisiÃ§Ã£o decrescente por padrÃ£o para visualizaÃ§Ã£o moderna
+        // Ordenar por data de aquisição decrescente por padrão para visualização moderna
         $sql .= " ORDER BY a.id_ativo DESC";
 
         $stmt = $this->db->prepare($sql);
@@ -47,8 +47,8 @@ class AtivoModel {
     }
 
     /**
-     * Busca um ativo especÃ­fico pelo seu ID
-     * Assinatura ObrigatÃ³ria: buscarPorId(int $id): ?array
+     * Busca um ativo específico pelo seu ID
+     * Assinatura Obrigatória: buscarPorId(int $id): ?array
      */
     public function buscarPorId(int $id): ?array {
         $stmt = $this->db->prepare("SELECT * FROM ativo WHERE id_ativo = :id LIMIT 1");
@@ -59,7 +59,7 @@ class AtivoModel {
 
     /**
      * Cadastra um novo ativo
-     * Assinatura ObrigatÃ³ria: cadastrar(array $dados): bool
+     * Assinatura Obrigatória: cadastrar(array $dados): bool
      */
     public function cadastrar(array $dados): bool {
         $stmt = $this->db->prepare("INSERT INTO ativo (patrimonio, status, data_aquisicao, id_categoria, id_departamento, id_fornecedor) 
@@ -76,7 +76,7 @@ class AtivoModel {
 
     /**
      * Atualiza um ativo existente
-     * Assinatura ObrigatÃ³ria: atualizar(int $id, array $dados): bool
+     * Assinatura Obrigatória: atualizar(int $id, array $dados): bool
      */
     public function atualizar(int $id, array $dados): bool {
         $stmt = $this->db->prepare("UPDATE ativo SET 
@@ -100,7 +100,7 @@ class AtivoModel {
 
     /**
      * Exclui um ativo
-     * Assinatura ObrigatÃ³ria: excluir(int $id): bool
+     * Assinatura Obrigatória: excluir(int $id): bool
      */
     public function excluir(int $id): bool {
         $stmt = $this->db->prepare("DELETE FROM ativo WHERE id_ativo = :id");

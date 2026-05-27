@@ -1,20 +1,20 @@
 <?php
-// Contar totais para o painel de estatÃ­sticas
+// Contar totais para o painel de estatísticas
 $countAtivo = 0;
 $countInativo = 0;
 $countManutencao = 0;
 foreach ($ativos as $a) {
     if ($a['status'] === 'Ativo') $countAtivo++;
     elseif ($a['status'] === 'Inativo') $countInativo++;
-    elseif ($a['status'] === 'Em ManutenÃ§Ã£o') $countManutencao++;
+    elseif ($a['status'] === 'Em Manutenção') $countManutencao++;
 }
 $countTotal = count($ativos);
 ?>
 
 <div class="row align-items-center mb-4">
     <div class="col-12 col-md-6">
-        <h1 class="text-white mb-1"><i class="bi bi-laptop me-2 text-info"></i>GestÃ£o de Ativos</h1>
-        <p class="text-secondary mb-0">Controle e rastreabilidade de ativos tecnolÃ³gicos corporativos</p>
+        <h1 class="text-white mb-1"><i class="bi bi-laptop me-2 text-info"></i>Gestão de Ativos</h1>
+        <p class="text-secondary mb-0">Controle e rastreabilidade de ativos tecnológicos corporativos</p>
     </div>
     <div class="col-12 col-md-6 text-md-end mt-3 mt-md-0">
         <a href="?modulo=ativos&acao=cadastro" class="btn btn-primary-neon px-4 py-2">
@@ -23,7 +23,7 @@ $countTotal = count($ativos);
     </div>
 </div>
 
-<!-- Grid de PainÃ©is RÃ¡pidos (WOW Design Cards) -->
+<!-- Grid de Painéis Rápidos (WOW Design Cards) -->
 <div class="row g-3 mb-4">
     <div class="col-12 col-sm-6 col-lg-3">
         <div class="card card-glass p-3 d-flex flex-row align-items-center">
@@ -43,7 +43,7 @@ $countTotal = count($ativos);
             </div>
             <div>
                 <h4 class="text-white mb-0"><?= $countAtivo ?></h4>
-                <span class="text-secondary small">Em OperaÃ§Ã£o</span>
+                <span class="text-secondary small">Em Operação</span>
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@ $countTotal = count($ativos);
             </div>
             <div>
                 <h4 class="text-white mb-0"><?= $countManutencao ?></h4>
-                <span class="text-secondary small">Em ManutenÃ§Ã£o</span>
+                <span class="text-secondary small">Em Manutenção</span>
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@ $countTotal = count($ativos);
         <input type="hidden" name="acao" value="listagem">
         
         <div class="col-12 col-md-3">
-            <label for="patrimonio" class="form-label text-secondary small">CÃ³digo do PatrimÃ´nio</label>
+            <label for="patrimonio" class="form-label text-secondary small">Código do Patrimônio</label>
             <input type="text" name="patrimonio" id="patrimonio" class="form-control form-control-glass" 
                    value="<?= htmlspecialchars($filtros['patrimonio'] ?? '') ?>" placeholder="Ex: NOTE-001">
         </div>
@@ -102,7 +102,7 @@ $countTotal = count($ativos);
                 <option value="">Todos os Status</option>
                 <option value="Ativo" <?= (isset($filtros['status']) && $filtros['status'] === 'Ativo') ? 'selected' : '' ?>>Ativo</option>
                 <option value="Inativo" <?= (isset($filtros['status']) && $filtros['status'] === 'Inativo') ? 'selected' : '' ?>>Inativo</option>
-                <option value="Em ManutenÃ§Ã£o" <?= (isset($filtros['status']) && $filtros['status'] === 'Em ManutenÃ§Ã£o') ? 'selected' : '' ?>>Em ManutenÃ§Ã£o</option>
+                <option value="Em Manutenção" <?= (isset($filtros['status']) && $filtros['status'] === 'Em Manutenção') ? 'selected' : '' ?>>Em Manutenção</option>
             </select>
         </div>
         
@@ -130,19 +130,19 @@ $countTotal = count($ativos);
             <table class="table table-glass align-middle w-100">
                 <thead>
                     <tr>
-                        <th style="width: 15%">PatrimÃ´nio</th>
+                        <th style="width: 15%">Patrimônio</th>
                         <th style="width: 18%">Categoria</th>
                         <th style="width: 22%">Departamento</th>
                         <th style="width: 20%">Fornecedor</th>
-                        <th style="width: 12%">Data AquisiÃ§Ã£o</th>
+                        <th style="width: 12%">Data Aquisição</th>
                         <th style="width: 13%">Status</th>
-                        <th style="width: 15%" class="text-center">AÃ§Ãµes</th>
+                        <th style="width: 15%" class="text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($ativos as $ativo): ?>
                         <tr>
-                            <td class="fw-bold text-white"><?= htmlspecialchars($ativo['patrimonio']) ?></td>
+                            <td class="fw-bold"><?= htmlspecialchars($ativo['patrimonio']) ?></td>
                             <td><?= htmlspecialchars($ativo['categoria_nome'] ?? 'Sem Categoria') ?></td>
                             <td><?= htmlspecialchars($ativo['departamento_nome'] ?? 'Sem Departamento') ?></td>
                             <td><?= htmlspecialchars($ativo['fornecedor_nome'] ?? 'Sem Fornecedor') ?></td>
@@ -152,7 +152,7 @@ $countTotal = count($ativos);
                                 $statusClass = '';
                                 if ($ativo['status'] === 'Ativo') $statusClass = 'badge-status-ativo';
                                 elseif ($ativo['status'] === 'Inativo') $statusClass = 'badge-status-inativo';
-                                elseif ($ativo['status'] === 'Em ManutenÃ§Ã£o') $statusClass = 'badge-status-manutencao';
+                                elseif ($ativo['status'] === 'Em Manutenção') $statusClass = 'badge-status-manutencao';
                                 ?>
                                 <span class="badge-status <?= $statusClass ?>">
                                     <?= htmlspecialchars($ativo['status']) ?>
@@ -165,10 +165,10 @@ $countTotal = count($ativos);
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     <a href="?modulo=manutencao&acao=cadastro&id_ativo=<?= $ativo['id_ativo'] ?>" 
-                                       class="btn btn-sm btn-secondary-neon text-warning" title="Registrar ManutenÃ§Ã£o">
+                                       class="btn btn-sm btn-secondary-neon text-warning" title="Registrar Manutenção">
                                         <i class="bi bi-tools"></i>
                                     </a>
-                                    <!-- BotÃ£o de exclusÃ£o seguro que dispara o modal -->
+                                    <!-- Botão de exclusão seguro que dispara o modal -->
                                     <button type="button" 
                                             class="btn btn-sm btn-secondary-neon text-danger border-danger-subtle" 
                                             title="Excluir Ativo"
@@ -185,28 +185,28 @@ $countTotal = count($ativos);
     <?php endif; ?>
 </div>
 
-<!-- Modal de ConfirmaÃ§Ã£o de ExclusÃ£o com Design Premium -->
+<!-- Modal de Confirmação de Exclusão com Design Premium -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-content-glass shadow-lg">
             <div class="modal-header border-0">
                 <h5 class="modal-title text-white" id="deleteModalLabel">
-                    <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i> Confirmar ExclusÃ£o
+                    <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i> Confirmar Exclusão
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-light">
-                <p>VocÃª tem certeza que deseja remover o ativo <strong class="text-info" id="deleteAssetCode"></strong> do sistema?</p>
-                <p class="small text-danger"><i class="bi bi-info-circle me-1"></i> AtenÃ§Ã£o: Esta aÃ§Ã£o nÃ£o poderÃ¡ ser desfeita e falharÃ¡ se houverem registros de manutenÃ§Ã£o pendentes para este ativo.</p>
+                <p>Você tem certeza que deseja remover o ativo <strong class="text-info" id="deleteAssetCode"></strong> do sistema?</p>
+                <p class="small text-danger"><i class="bi bi-info-circle me-1"></i> Atenção: Esta ação não poderá ser desfeita e falhará se houverem registros de manutenção pendentes para este ativo.</p>
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary-neon" data-bs-dismiss="modal">Cancelar</button>
                 <form action="?modulo=ativos&acao=excluir" method="POST" class="d-inline">
-                    <!-- Token CSRF ObrigatÃ³rio no modal de exclusÃ£o -->
+                    <!-- Token CSRF Obrigatório no modal de exclusão -->
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
                     <input type="hidden" name="id" id="deleteAssetId" value="">
                     <button type="submit" class="btn btn-danger px-4 border-0" style="background: var(--color-danger);">
-                        <i class="bi bi-trash me-1"></i> Confirmar ExclusÃ£o
+                        <i class="bi bi-trash me-1"></i> Confirmar Exclusão
                     </button>
                 </form>
             </div>

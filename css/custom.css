@@ -140,6 +140,8 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.45em 0.8em;
     border-radius: 6px;
     letter-spacing: 0.03em;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .badge-status-ativo {
@@ -214,7 +216,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .table-glass tbody tr {
-    background: rgba(30, 41, 59, 0.35);
+    background: rgba(30, 41, 59, 0.55);  /* era 0.35, sobe para 0.55 */
     border: 1px solid var(--border-glass);
     transition: all 0.2s ease;
 }
@@ -233,7 +235,8 @@ h1, h2, h3, h4, h5, h6 {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-left: 1px solid var(--border-glass);
-    color: var(--text-primary) !important;
+    color: var(--color-primary) !important;
+    font-weight: 600;
 }
 
 .table-glass tbody tr td:last-child {

@@ -8,10 +8,10 @@ $acao = $_GET['acao'] ?? '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITAM - Sistema de GestÃ£o de Ativos de TI</title>
+    <title>ITAM - Sistema de Gestão de Ativos de TI</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts & Custom CSS (VÃ­nculo CrÃ­tico apÃ³s Bootstrap) -->
+    <!-- Google Fonts & Custom CSS (Vínculo Crítico após Bootstrap) -->
     <link href="css/custom.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -38,12 +38,12 @@ $acao = $_GET['acao'] ?? '';
                 </li>
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center py-2 px-3 <?= ($modulo === 'manutencao') ? 'active text-info fw-bold' : '' ?>" href="?modulo=manutencao&acao=cadastro">
-                        <i class="bi bi-tools me-2"></i> ManutenÃ§Ãµes
+                        <i class="bi bi-tools me-2"></i> Manutenções
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center py-2 px-3 <?= ($modulo === 'relatorio') ? 'active text-info fw-bold' : '' ?>" href="?modulo=relatorio&acao=index">
-                        <i class="bi bi-bar-chart-line me-2"></i> Custos e RelatÃ³rios
+                        <i class="bi bi-bar-chart-line me-2"></i> Custos e Relatórios
                     </a>
                 </li>
             </ul>
@@ -63,7 +63,7 @@ $acao = $_GET['acao'] ?? '';
 
 <div class="container <?= ($modulo === 'auth' && $acao === 'login') ? '' : 'pb-5' ?>">
 
-<!-- Toast de NotificaÃ§Ãµes Flash Flutuante -->
+<!-- Toast de Notificações Flash Flutuante -->
 <?php if (isset($flash) && $flash): ?>
     <div class="flash-toast flash-toast-<?= htmlspecialchars($flash['type']) ?>" id="flashToast">
         <div class="d-flex align-items-center justify-content-between">
@@ -74,7 +74,7 @@ $acao = $_GET['acao'] ?? '';
                     <i class="bi bi-exclamation-triangle-fill text-danger fs-4 me-2"></i>
                 <?php endif; ?>
                 <div>
-                    <strong class="text-white"><?= ($flash['type'] === 'success') ? 'Sucesso' : 'AtenÃ§Ã£o' ?></strong>
+                    <strong class="text-white"><?= ($flash['type'] === 'success') ? 'Sucesso' : 'Atenção' ?></strong>
                     <div class="text-light opacity-75 small"><?= htmlspecialchars($flash['message']) ?></div>
                 </div>
             </div>
@@ -82,7 +82,7 @@ $acao = $_GET['acao'] ?? '';
         </div>
     </div>
     <script>
-        // Fechamento automÃ¡tico em 5 segundos
+        // Fechamento automático em 5 segundos
         setTimeout(function() {
             var toast = document.getElementById('flashToast');
             if (toast) {
