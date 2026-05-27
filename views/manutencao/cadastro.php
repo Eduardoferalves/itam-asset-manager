@@ -26,7 +26,7 @@ $descricao_val = $old_input['descricao'] ?? '';
                     <select name="id_ativo" id="id_ativo" class="form-select form-select-glass" required>
                         <option value="">Selecione um ativo pelo patrimônio...</option>
                         <?php foreach ($ativos as $ativo): ?>
-                            <option value="<?= $ativo['id_ativo'] ?>" <?= ($id_ativo_val == $ativo['id_ativo']) ? 'selected' : '' ?>>
+                            <option value="<?= htmlspecialchars((string)$ativo['id_ativo'], ENT_QUOTES, 'UTF-8') ?>" <?= ($id_ativo_val == $ativo['id_ativo']) ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($ativo['patrimonio']) ?> (Status Atual: <?= htmlspecialchars($ativo['status']) ?>)
                             </option>
                         <?php endforeach; ?>

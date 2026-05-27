@@ -90,17 +90,24 @@ class AtivoController {
         }
 
         // Cadastrar ativo
-        $sucesso = $this->ativoModel->cadastrar($dados);
+        try {
+            $sucesso = $this->ativoModel->cadastrar($dados);
 
-        if ($sucesso) {
-            $_SESSION['flash'] = ['type' => 'success', 'message' => 'Ativo cadastrado com sucesso!'];
-            // REGRA CRÍTICA: Regenerar token CSRF após POST bem-sucedido
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-            header("Location: ?modulo=ativos&acao=listagem");
-            exit;
-        } else {
+            if ($sucesso) {
+                $_SESSION['flash'] = ['type' => 'success', 'message' => 'Ativo cadastrado com sucesso!'];
+                // REGRA CRÍTICA: Regenerar token CSRF após POST bem-sucedido
+                $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+                header("Location: ?modulo=ativos&acao=listagem");
+                exit;
+            } else {
+                $_SESSION['old_input'] = $_POST;
+                $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro ao salvar o ativo. Verifique os dados.'];
+                header("Location: ?modulo=ativos&acao=cadastro");
+                exit;
+            }
+        } catch (PDOException $e) {
             $_SESSION['old_input'] = $_POST;
-            $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro ao salvar o ativo. Verifique os dados.'];
+            $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro de integridade: Verifique se os dados fornecidos (como Categoria ou Ativo) são válidos.'];
             header("Location: ?modulo=ativos&acao=cadastro");
             exit;
         }
@@ -172,17 +179,24 @@ class AtivoController {
             exit;
         }
 
-        $sucesso = $this->ativoModel->atualizar($id, $dados);
+        try {
+            $sucesso = $this->ativoModel->atualizar($id, $dados);
 
-        if ($sucesso) {
-            $_SESSION['flash'] = ['type' => 'success', 'message' => 'Ativo atualizado com sucesso!'];
-            // REGRA CRÍTICA: Regenerar token CSRF após POST bem-sucedido
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-            header("Location: ?modulo=ativos&acao=listagem");
-            exit;
-        } else {
+            if ($sucesso) {
+                $_SESSION['flash'] = ['type' => 'success', 'message' => 'Ativo atualizado com sucesso!'];
+                // REGRA CRÍTICA: Regenerar token CSRF após POST bem-sucedido
+                $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+                header("Location: ?modulo=ativos&acao=listagem");
+                exit;
+            } else {
+                $_SESSION['old_input'] = $_POST;
+                $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro ao atualizar o ativo.'];
+                header("Location: ?modulo=ativos&acao=editar&id={$id}");
+                exit;
+            }
+        } catch (PDOException $e) {
             $_SESSION['old_input'] = $_POST;
-            $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro ao atualizar o ativo.'];
+            $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro de integridade: Verifique se os dados fornecidos (como Categoria ou Ativo) são válidos.'];
             header("Location: ?modulo=ativos&acao=editar&id={$id}");
             exit;
         }

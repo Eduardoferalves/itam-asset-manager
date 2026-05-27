@@ -65,23 +65,30 @@ class ManutencaoController {
         $dados['id_usuario'] = $_SESSION['usuario']['id_usuario'];
 
         // Salvar manutenção
-        $sucesso = $this->manutencaoModel->salvar($dados);
+        try {
+            $sucesso = $this->manutencaoModel->salvar($dados);
 
-        if ($sucesso) {
-            // UX Premium: Atualizar automaticamente o status do ativo para "Em Manutenção"
-            $stmtUpdate = $this->db->prepare("UPDATE ativo SET status = 'Em Manutenção' WHERE id_ativo = :id");
-            $stmtUpdate->execute(['id' => (int)$dados['id_ativo']]);
+            if ($sucesso) {
+                // UX Premium: Atualizar automaticamente o status do ativo para "Em Manutenção"
+                $stmtUpdate = $this->db->prepare("UPDATE ativo SET status = 'Em Manutenção' WHERE id_ativo = :id");
+                $stmtUpdate->execute(['id' => (int)$dados['id_ativo']]);
 
-            $_SESSION['flash'] = ['type' => 'success', 'message' => 'Manutenção registrada com sucesso! O ativo foi alterado para "Em Manutenção".'];
-            
-            // REGRA CRÍTICA: Regenerar token CSRF após POST bem-sucedido
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+                $_SESSION['flash'] = ['type' => 'success', 'message' => 'Manutenção registrada com sucesso! O ativo foi alterado para "Em Manutenção".'];
+                
+                // REGRA CRÍTICA: Regenerar token CSRF após POST bem-sucedido
+                $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
-            header("Location: ?modulo=ativos&acao=listagem");
-            exit;
-        } else {
+                header("Location: ?modulo=ativos&acao=listagem");
+                exit;
+            } else {
+                $_SESSION['old_input'] = $_POST;
+                $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro ao salvar o registro de manutenção.'];
+                header("Location: ?modulo=manutencao&acao=cadastro&id_ativo=" . (int)$dados['id_ativo']);
+                exit;
+            }
+        } catch (PDOException $e) {
             $_SESSION['old_input'] = $_POST;
-            $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro ao salvar o registro de manutenção.'];
+            $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro de integridade: Verifique se os dados fornecidos (como Categoria ou Ativo) são válidos.'];
             header("Location: ?modulo=manutencao&acao=cadastro&id_ativo=" . (int)$dados['id_ativo']);
             exit;
         }

@@ -31,7 +31,7 @@ $countTotal = count($ativos);
                 <i class="bi bi-laptop fs-3"></i>
             </div>
             <div>
-                <h4 class="text-white mb-0"><?= $countTotal ?></h4>
+                <h4 class="text-white mb-0"><?= htmlspecialchars((string)$countTotal, ENT_QUOTES, 'UTF-8') ?></h4>
                 <span class="text-secondary small">Total Registrado</span>
             </div>
         </div>
@@ -42,7 +42,7 @@ $countTotal = count($ativos);
                 <i class="bi bi-check-circle fs-3"></i>
             </div>
             <div>
-                <h4 class="text-white mb-0"><?= $countAtivo ?></h4>
+                <h4 class="text-white mb-0"><?= htmlspecialchars((string)$countAtivo, ENT_QUOTES, 'UTF-8') ?></h4>
                 <span class="text-secondary small">Em Operação</span>
             </div>
         </div>
@@ -53,7 +53,7 @@ $countTotal = count($ativos);
                 <i class="bi bi-cone-striped fs-3"></i>
             </div>
             <div>
-                <h4 class="text-white mb-0"><?= $countManutencao ?></h4>
+                <h4 class="text-white mb-0"><?= htmlspecialchars((string)$countManutencao, ENT_QUOTES, 'UTF-8') ?></h4>
                 <span class="text-secondary small">Em Manutenção</span>
             </div>
         </div>
@@ -64,7 +64,7 @@ $countTotal = count($ativos);
                 <i class="bi bi-x-circle fs-3"></i>
             </div>
             <div>
-                <h4 class="text-white mb-0"><?= $countInativo ?></h4>
+                <h4 class="text-white mb-0"><?= htmlspecialchars((string)$countInativo, ENT_QUOTES, 'UTF-8') ?></h4>
                 <span class="text-secondary small">Inativos</span>
             </div>
         </div>
@@ -89,7 +89,7 @@ $countTotal = count($ativos);
             <select name="id_categoria" id="id_categoria" class="form-select form-select-glass">
                 <option value="">Todas as Categorias</option>
                 <?php foreach ($categorias as $cat): ?>
-                    <option value="<?= $cat['id_categoria'] ?>" <?= (isset($filtros['id_categoria']) && $filtros['id_categoria'] == $cat['id_categoria']) ? 'selected' : '' ?>>
+                    <option value="<?= htmlspecialchars((string)$cat['id_categoria'], ENT_QUOTES, 'UTF-8') ?>" <?= (isset($filtros['id_categoria']) && $filtros['id_categoria'] == $cat['id_categoria']) ? 'selected' : '' ?>>
                         <?= htmlspecialchars($cat['descricao']) ?>
                     </option>
                 <?php endforeach; ?>
@@ -154,17 +154,17 @@ $countTotal = count($ativos);
                                 elseif ($ativo['status'] === 'Inativo') $statusClass = 'badge-status-inativo';
                                 elseif ($ativo['status'] === 'Em Manutenção') $statusClass = 'badge-status-manutencao';
                                 ?>
-                                <span class="badge-status <?= $statusClass ?>">
+                                <span class="badge-status <?= htmlspecialchars((string)$statusClass, ENT_QUOTES, 'UTF-8') ?>">
                                     <?= htmlspecialchars($ativo['status']) ?>
                                 </span>
                             </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="?modulo=ativos&acao=editar&id=<?= $ativo['id_ativo'] ?>" 
+                                    <a href="?modulo=ativos&acao=editar&id=<?= htmlspecialchars((string)$ativo['id_ativo'], ENT_QUOTES, 'UTF-8') ?>" 
                                        class="btn btn-sm btn-secondary-neon text-info" title="Editar Ativo">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
-                                    <a href="?modulo=manutencao&acao=cadastro&id_ativo=<?= $ativo['id_ativo'] ?>" 
+                                    <a href="?modulo=manutencao&acao=cadastro&id_ativo=<?= htmlspecialchars((string)$ativo['id_ativo'], ENT_QUOTES, 'UTF-8') ?>" 
                                        class="btn btn-sm btn-secondary-neon text-warning" title="Registrar Manutenção">
                                         <i class="bi bi-tools"></i>
                                     </a>
@@ -172,7 +172,7 @@ $countTotal = count($ativos);
                                     <button type="button" 
                                             class="btn btn-sm btn-secondary-neon text-danger border-danger-subtle" 
                                             title="Excluir Ativo"
-                                            onclick="confirmDelete(<?= $ativo['id_ativo'] ?>, '<?= htmlspecialchars($ativo['patrimonio']) ?>')">
+                                            onclick="confirmDelete(<?= htmlspecialchars((string)$ativo['id_ativo'], ENT_QUOTES, 'UTF-8') ?>, '<?= htmlspecialchars($ativo['patrimonio']) ?>')">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
                                 </div>

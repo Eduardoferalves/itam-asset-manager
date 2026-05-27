@@ -34,7 +34,9 @@ class Conexao {
                 self::$instancia->exec("SET sql_mode = 'STRICT_ALL_TABLES'");
 
             } catch (PDOException $e) {
-                die("Erro de Conexão com o Banco de Dados: " . $e->getMessage());
+                error_log("Erro de Conexão PDO: " . $e->getMessage());
+                http_response_code(500);
+                die("Erro interno do servidor. Nossa equipe já foi notificada.");
             }
         }
         return self::$instancia;

@@ -18,21 +18,21 @@ $id_fornecedor_val = $old_input['id_fornecedor'] ?? ($ativo['id_fornecedor'] ?? 
         <a href="?modulo=ativos&acao=listagem" class="btn btn-secondary-neon btn-sm mb-3">
             <i class="bi bi-arrow-left me-1"></i> Voltar para a Listagem
         </a>
-        <h1 class="text-white mb-1"><i class="bi bi-laptop me-2 text-info"></i><?= $titulo ?></h1>
-        <p class="text-secondary"><?= $subtitulo ?></p>
+        <h1 class="text-white mb-1"><i class="bi bi-laptop me-2 text-info"></i><?= htmlspecialchars((string)$titulo, ENT_QUOTES, 'UTF-8') ?></h1>
+        <p class="text-secondary"><?= htmlspecialchars((string)$subtitulo, ENT_QUOTES, 'UTF-8') ?></p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-12 col-md-8 mx-auto">
         <div class="card card-glass p-4 border-glass shadow-lg">
-            <form action="<?= $actionUrl ?>" method="POST">
+            <form action="<?= htmlspecialchars((string)$actionUrl, ENT_QUOTES, 'UTF-8') ?>" method="POST">
                 <!-- Token CSRF Obrigatório em todos os formulários -->
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
                 
                 <?php if ($isEdit): ?>
                     <!-- ID do Ativo para Atualização -->
-                    <input type="hidden" name="id_ativo" value="<?= $ativo['id_ativo'] ?>">
+                    <input type="hidden" name="id_ativo" value="<?= htmlspecialchars((string)$ativo['id_ativo'], ENT_QUOTES, 'UTF-8') ?>">
                 <?php endif; ?>
                 
                 <div class="row g-3 mb-4">
@@ -63,7 +63,7 @@ $id_fornecedor_val = $old_input['id_fornecedor'] ?? ($ativo['id_fornecedor'] ?? 
                         <select name="id_categoria" id="id_categoria" class="form-select form-select-glass">
                             <option value="">Selecione uma Categoria...</option>
                             <?php foreach ($categorias as $cat): ?>
-                                <option value="<?= $cat['id_categoria'] ?>" <?= ($id_categoria_val == $cat['id_categoria']) ? 'selected' : '' ?>>
+                                <option value="<?= htmlspecialchars((string)$cat['id_categoria'], ENT_QUOTES, 'UTF-8') ?>" <?= ($id_categoria_val == $cat['id_categoria']) ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($cat['descricao']) ?>
                                 </option>
                             <?php endforeach; ?>
@@ -87,7 +87,7 @@ $id_fornecedor_val = $old_input['id_fornecedor'] ?? ($ativo['id_fornecedor'] ?? 
                         <select name="id_departamento" id="id_departamento" class="form-select form-select-glass">
                             <option value="">Selecione um Departamento...</option>
                             <?php foreach ($departamentos as $dep): ?>
-                                <option value="<?= $dep['id_departamento'] ?>" <?= ($id_departamento_val == $dep['id_departamento']) ? 'selected' : '' ?>>
+                                <option value="<?= htmlspecialchars((string)$dep['id_departamento'], ENT_QUOTES, 'UTF-8') ?>" <?= ($id_departamento_val == $dep['id_departamento']) ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($dep['nome']) ?>
                                 </option>
                             <?php endforeach; ?>
@@ -101,7 +101,7 @@ $id_fornecedor_val = $old_input['id_fornecedor'] ?? ($ativo['id_fornecedor'] ?? 
                         <select name="id_fornecedor" id="id_fornecedor" class="form-select form-select-glass">
                             <option value="">Selecione um Fornecedor...</option>
                             <?php foreach ($fornecedores as $forn): ?>
-                                <option value="<?= $forn['id_fornecedor'] ?>" <?= ($id_fornecedor_val == $forn['id_fornecedor']) ? 'selected' : '' ?>>
+                                <option value="<?= htmlspecialchars((string)$forn['id_fornecedor'], ENT_QUOTES, 'UTF-8') ?>" <?= ($id_fornecedor_val == $forn['id_fornecedor']) ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($forn['nome_empresa']) ?>
                                 </option>
                             <?php endforeach; ?>
