@@ -5,9 +5,17 @@
 class AtivoController {
     private $db;
     private $ativoModel;
+    private $apoioModel;
 
     public function __construct() {
+        // Bloqueio rígido direto no Controller
+        if (!isset($_SESSION['usuario'])) {
+            header("Location: ?modulo=auth&acao=login");
+            exit;
+        }
+
         $this->db = Conexao::getConexao();
+        // Mantenha as instâncias dos models que já existem aí
         $this->ativoModel = new AtivoModel($this->db);
     }
 
@@ -80,9 +88,7 @@ class AtivoController {
         }
 
         // Verificar se patrimônio é único
-        $stmtCheck = $this->db->prepare("SELECT COUNT(*) FROM ativo WHERE patrimonio = :patrimonio");
-        $stmtCheck->execute(['patrimonio' => trim($dados['patrimonio'])]);
-        if ($stmtCheck->fetchColumn() > 0) {
+        if ($this->ativoModel->patrimonioExiste($dados['patrimonio'])) {
             $_SESSION['old_input'] = $_POST;
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Código de Patrimônio já está em uso por outro ativo.'];
             header("Location: ?modulo=ativos&acao=cadastro");
@@ -106,6 +112,7 @@ class AtivoController {
                 exit;
             }
         } catch (PDOException $e) {
+            error_log("PDOException em AtivoController::salvar - " . $e->getMessage());
             $_SESSION['old_input'] = $_POST;
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro de integridade: Verifique se os dados fornecidos (como Categoria ou Ativo) são válidos.'];
             header("Location: ?modulo=ativos&acao=cadastro");
@@ -170,9 +177,7 @@ class AtivoController {
         }
 
         // Verificar se código de patrimônio já é usado por OUTRO ativo
-        $stmtCheck = $this->db->prepare("SELECT COUNT(*) FROM ativo WHERE patrimonio = :patrimonio AND id_ativo != :id");
-        $stmtCheck->execute(['patrimonio' => trim($dados['patrimonio']), 'id' => $id]);
-        if ($stmtCheck->fetchColumn() > 0) {
+        if ($this->ativoModel->patrimonioExiste($dados['patrimonio'], $id)) {
             $_SESSION['old_input'] = $_POST;
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Código de Patrimônio já está em uso por outro ativo.'];
             header("Location: ?modulo=ativos&acao=editar&id={$id}");
@@ -195,6 +200,7 @@ class AtivoController {
                 exit;
             }
         } catch (PDOException $e) {
+            error_log("PDOException em AtivoController::atualizar - " . $e->getMessage());
             $_SESSION['old_input'] = $_POST;
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro de integridade: Verifique se os dados fornecidos (como Categoria ou Ativo) são válidos.'];
             header("Location: ?modulo=ativos&acao=editar&id={$id}");
@@ -228,6 +234,7 @@ class AtivoController {
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
         } catch (PDOException $e) {
+            error_log("PDOException em AtivoController::excluir - " . $e->getMessage());
             // CRITÉRIO DE ACEITE: Capturar violação de restrição de chave externa RESTRICT graciosamente
             if ($e->getCode() === '23000' || strpos($e->getMessage(), '1217') !== false || strpos($e->getMessage(), '1451') !== false) {
                 $_SESSION['flash'] = [

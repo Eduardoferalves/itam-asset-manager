@@ -7,7 +7,14 @@ class RelatorioController {
     private $manutencaoModel;
 
     public function __construct() {
+        // Bloqueio rígido direto no Controller
+        if (!isset($_SESSION['usuario'])) {
+            header("Location: ?modulo=auth&acao=login");
+            exit;
+        }
+
         $this->db = Conexao::getConexao();
+        // Mantenha as instâncias dos models que já existem aí
         $this->manutencaoModel = new ManutencaoModel($this->db);
     }
 

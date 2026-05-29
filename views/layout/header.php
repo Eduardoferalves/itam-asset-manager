@@ -50,7 +50,7 @@ $acao = $_GET['acao'] ?? '';
             <div class="d-flex align-items-center navbar-user-section">
                 <span class="navbar-text text-light me-3 small">
                     <i class="bi bi-person-circle me-1 text-info"></i>
-                    <?= htmlspecialchars($usuario['nome']) ?>
+                    <?= htmlspecialchars((string)$usuario['nome'], ENT_QUOTES, 'UTF-8') ?>
                 </span>
                 <a href="?modulo=auth&acao=logout" class="btn btn-sm btn-secondary-neon text-danger border-danger-subtle d-flex align-items-center px-3 py-1">
                     <i class="bi bi-box-arrow-right me-1"></i> Sair
@@ -65,7 +65,7 @@ $acao = $_GET['acao'] ?? '';
 
 <!-- Toast de Notificações Flash Flutuante -->
 <?php if (isset($flash) && $flash): ?>
-    <div class="flash-toast flash-toast-<?= htmlspecialchars($flash['type']) ?>" id="flashToast">
+    <div class="flash-toast flash-toast-<?= htmlspecialchars((string)$flash['type'], ENT_QUOTES, 'UTF-8') ?>" id="flashToast">
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <?php if ($flash['type'] === 'success'): ?>
@@ -75,7 +75,7 @@ $acao = $_GET['acao'] ?? '';
                 <?php endif; ?>
                 <div>
                     <strong class="text-white"><?= ($flash['type'] === 'success') ? 'Sucesso' : 'Atenção' ?></strong>
-                    <div class="text-light opacity-75 small"><?= htmlspecialchars($flash['message']) ?></div>
+                    <div class="text-light opacity-75 small"><?= htmlspecialchars((string)$flash['message'], ENT_QUOTES, 'UTF-8') ?></div>
                 </div>
             </div>
             <button type="button" class="btn-close btn-close-white ms-3" onclick="document.getElementById('flashToast').style.display='none'"></button>

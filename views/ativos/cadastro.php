@@ -40,7 +40,7 @@ $id_fornecedor_val = $old_input['id_fornecedor'] ?? ($ativo['id_fornecedor'] ?? 
                     <div class="col-12 col-sm-6">
                         <label for="patrimonio" class="form-label text-secondary small">Código de Patrimônio <span class="text-danger">*</span></label>
                         <input type="text" name="patrimonio" id="patrimonio" class="form-control form-control-glass" 
-                               value="<?= htmlspecialchars($patrimonio_val) ?>" placeholder="Ex: NOTE-045, DESK-102" required>
+                               value="<?= htmlspecialchars((string)$patrimonio_val, ENT_QUOTES, 'UTF-8') ?>" placeholder="Ex: NOTE-045, DESK-102" required>
                         <div class="form-text text-secondary opacity-75 small-text">Código identificador exclusivo do ativo.</div>
                     </div>
                     
@@ -64,7 +64,7 @@ $id_fornecedor_val = $old_input['id_fornecedor'] ?? ($ativo['id_fornecedor'] ?? 
                             <option value="">Selecione uma Categoria...</option>
                             <?php foreach ($categorias as $cat): ?>
                                 <option value="<?= htmlspecialchars((string)$cat['id_categoria'], ENT_QUOTES, 'UTF-8') ?>" <?= ($id_categoria_val == $cat['id_categoria']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($cat['descricao']) ?>
+                                    <?= htmlspecialchars((string)$cat['descricao'], ENT_QUOTES, 'UTF-8') ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -75,7 +75,7 @@ $id_fornecedor_val = $old_input['id_fornecedor'] ?? ($ativo['id_fornecedor'] ?? 
                     <div class="col-12 col-sm-6">
                         <label for="data_aquisicao" class="form-label text-secondary small">Data de Aquisição <span class="text-danger">*</span></label>
                         <input type="date" name="data_aquisicao" id="data_aquisicao" class="form-control form-control-glass" 
-                               value="<?= htmlspecialchars($data_aquisicao_val) ?>" required>
+                               value="<?= htmlspecialchars((string)$data_aquisicao_val, ENT_QUOTES, 'UTF-8') ?>" required>
                         <div class="form-text text-secondary opacity-75 small-text">Data em que o ativo foi adquirido.</div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@ $id_fornecedor_val = $old_input['id_fornecedor'] ?? ($ativo['id_fornecedor'] ?? 
                             <option value="">Selecione um Departamento...</option>
                             <?php foreach ($departamentos as $dep): ?>
                                 <option value="<?= htmlspecialchars((string)$dep['id_departamento'], ENT_QUOTES, 'UTF-8') ?>" <?= ($id_departamento_val == $dep['id_departamento']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($dep['nome']) ?>
+                                    <?= htmlspecialchars((string)$dep['nome'], ENT_QUOTES, 'UTF-8') ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -102,7 +102,7 @@ $id_fornecedor_val = $old_input['id_fornecedor'] ?? ($ativo['id_fornecedor'] ?? 
                             <option value="">Selecione um Fornecedor...</option>
                             <?php foreach ($fornecedores as $forn): ?>
                                 <option value="<?= htmlspecialchars((string)$forn['id_fornecedor'], ENT_QUOTES, 'UTF-8') ?>" <?= ($id_fornecedor_val == $forn['id_fornecedor']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($forn['nome_empresa']) ?>
+                                    <?= htmlspecialchars((string)$forn['nome_empresa'], ENT_QUOTES, 'UTF-8') ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>

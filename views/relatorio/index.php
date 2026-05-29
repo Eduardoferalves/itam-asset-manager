@@ -59,7 +59,7 @@ if (!empty($custos)) {
                 <i class="bi bi-exclamation-octagon fs-3"></i>
             </div>
             <div>
-                <h4 class="text-white mb-0"><?= htmlspecialchars($ativoMaisCaro) ?></h4>
+                <h4 class="text-white mb-0"><?= htmlspecialchars((string)$ativoMaisCaro, ENT_QUOTES, 'UTF-8') ?></h4>
                 <span class="text-secondary small">Ativo Mais Custoso (R$ <?= number_format($maiorCusto, 2, ',', '.') ?>)</span>
             </div>
         </div>
@@ -92,11 +92,11 @@ if (!empty($custos)) {
                 <tbody>
                     <?php foreach ($custos as $linha): ?>
                         <tr>
-                            <td class="fw-bold text-white"><?= htmlspecialchars($linha['patrimonio']) ?></td>
-                            <td><?= htmlspecialchars($linha['departamento_nome']) ?></td>
+                            <td class="fw-bold text-white"><?= htmlspecialchars((string)$linha['patrimonio'], ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= htmlspecialchars((string)$linha['departamento_nome'], ENT_QUOTES, 'UTF-8') ?></td>
                             <td class="text-center">
                                 <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-3 py-1">
-                                    <?= htmlspecialchars($linha['qtd_manutencoes']) ?>
+                                    <?= htmlspecialchars((string)$linha['qtd_manutencoes'], ENT_QUOTES, 'UTF-8') ?>
                                 </span>
                             </td>
                             <td class="text-end fw-bold text-info">

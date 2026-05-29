@@ -81,7 +81,7 @@ $countTotal = count($ativos);
         <div class="col-12 col-md-3">
             <label for="patrimonio" class="form-label text-secondary small">Código do Patrimônio</label>
             <input type="text" name="patrimonio" id="patrimonio" class="form-control form-control-glass" 
-                   value="<?= htmlspecialchars($filtros['patrimonio'] ?? '') ?>" placeholder="Ex: NOTE-001">
+                   value="<?= htmlspecialchars((string)($filtros['patrimonio'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" placeholder="Ex: NOTE-001">
         </div>
         
         <div class="col-12 col-md-3">
@@ -90,7 +90,7 @@ $countTotal = count($ativos);
                 <option value="">Todas as Categorias</option>
                 <?php foreach ($categorias as $cat): ?>
                     <option value="<?= htmlspecialchars((string)$cat['id_categoria'], ENT_QUOTES, 'UTF-8') ?>" <?= (isset($filtros['id_categoria']) && $filtros['id_categoria'] == $cat['id_categoria']) ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($cat['descricao']) ?>
+                        <?= htmlspecialchars((string)$cat['descricao'], ENT_QUOTES, 'UTF-8') ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -142,10 +142,10 @@ $countTotal = count($ativos);
                 <tbody>
                     <?php foreach ($ativos as $ativo): ?>
                         <tr>
-                            <td class="fw-bold"><?= htmlspecialchars($ativo['patrimonio']) ?></td>
-                            <td><?= htmlspecialchars($ativo['categoria_nome'] ?? 'Sem Categoria') ?></td>
-                            <td><?= htmlspecialchars($ativo['departamento_nome'] ?? 'Sem Departamento') ?></td>
-                            <td><?= htmlspecialchars($ativo['fornecedor_nome'] ?? 'Sem Fornecedor') ?></td>
+                            <td class="fw-bold"><?= htmlspecialchars((string)$ativo['patrimonio'], ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= htmlspecialchars((string)($ativo['categoria_nome'] ?? 'Sem Categoria'), ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= htmlspecialchars((string)($ativo['departamento_nome'] ?? 'Sem Departamento'), ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= htmlspecialchars((string)($ativo['fornecedor_nome'] ?? 'Sem Fornecedor'), ENT_QUOTES, 'UTF-8') ?></td>
                             <td class="small text-secondary"><?= date('d/m/Y', strtotime($ativo['data_aquisicao'])) ?></td>
                             <td>
                                 <?php
@@ -155,7 +155,7 @@ $countTotal = count($ativos);
                                 elseif ($ativo['status'] === 'Em Manutenção') $statusClass = 'badge-status-manutencao';
                                 ?>
                                 <span class="badge-status <?= htmlspecialchars((string)$statusClass, ENT_QUOTES, 'UTF-8') ?>">
-                                    <?= htmlspecialchars($ativo['status']) ?>
+                                    <?= htmlspecialchars((string)$ativo['status'], ENT_QUOTES, 'UTF-8') ?>
                                 </span>
                             </td>
                             <td class="text-center">
@@ -172,7 +172,7 @@ $countTotal = count($ativos);
                                     <button type="button" 
                                             class="btn btn-sm btn-secondary-neon text-danger border-danger-subtle" 
                                             title="Excluir Ativo"
-                                            onclick="confirmDelete(<?= htmlspecialchars((string)$ativo['id_ativo'], ENT_QUOTES, 'UTF-8') ?>, '<?= htmlspecialchars($ativo['patrimonio']) ?>')">
+                                            onclick="confirmDelete(<?= htmlspecialchars((string)$ativo['id_ativo'], ENT_QUOTES, 'UTF-8') ?>, '<?= htmlspecialchars((string)$ativo['patrimonio'], ENT_QUOTES, 'UTF-8') ?>')">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
                                 </div>

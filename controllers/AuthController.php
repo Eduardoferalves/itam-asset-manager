@@ -50,6 +50,8 @@ class AuthController {
                 'nome' => $usuario['nome'],
                 'email' => $usuario['email']
             ];
+            // Skill 4: Strict Access Control - Define flag explícita
+            $_SESSION['usuario_logado'] = true;
 
             $_SESSION['flash'] = ['type' => 'success', 'message' => "Bem-vindo, {$usuario['nome']}!"];
 

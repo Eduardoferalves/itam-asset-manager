@@ -23,7 +23,7 @@ $email_val = $old_input['email'] ?? '';
                             <span class="input-group-text bg-transparent border-glass text-secondary">
                                 <i class="bi bi-envelope"></i>
                             </span>
-                            <input type="email" name="email" id="email" class="form-control form-control-glass" value="<?= htmlspecialchars($email_val) ?>" placeholder="nome@exemplo.com" required autocomplete="email">
+                            <input type="email" name="email" id="email" class="form-control form-control-glass" value="<?= htmlspecialchars((string)$email_val, ENT_QUOTES, 'UTF-8') ?>" placeholder="nome@exemplo.com" required autocomplete="email">
                         </div>
                     </div>
                     

@@ -27,7 +27,7 @@ $descricao_val = $old_input['descricao'] ?? '';
                         <option value="">Selecione um ativo pelo patrimônio...</option>
                         <?php foreach ($ativos as $ativo): ?>
                             <option value="<?= htmlspecialchars((string)$ativo['id_ativo'], ENT_QUOTES, 'UTF-8') ?>" <?= ($id_ativo_val == $ativo['id_ativo']) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($ativo['patrimonio']) ?> (Status Atual: <?= htmlspecialchars($ativo['status']) ?>)
+                                <?= htmlspecialchars((string)$ativo['patrimonio'], ENT_QUOTES, 'UTF-8') ?> (Status Atual: <?= htmlspecialchars((string)$ativo['status'], ENT_QUOTES, 'UTF-8') ?>)
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -41,7 +41,7 @@ $descricao_val = $old_input['descricao'] ?? '';
                         <div class="input-group">
                             <span class="input-group-text bg-transparent border-glass text-secondary">R$</span>
                             <input type="number" name="custo" id="custo" class="form-control form-control-glass" 
-                                   value="<?= htmlspecialchars($custo_val) ?>" placeholder="0,00" step="0.01" min="0.00" required>
+                                   value="<?= htmlspecialchars((string)$custo_val, ENT_QUOTES, 'UTF-8') ?>" placeholder="0,00" step="0.01" min="0.00" required>
                         </div>
                         <div class="form-text text-secondary opacity-75 small-text">Informe o valor total gasto com peças ou serviços terceirizados.</div>
                     </div>
@@ -51,7 +51,7 @@ $descricao_val = $old_input['descricao'] ?? '';
                 <div class="mb-4">
                     <label for="descricao" class="form-label text-secondary small">Descrição Técnica da Manutenção <span class="text-danger">*</span></label>
                     <textarea name="descricao" id="descricao" class="form-control form-control-glass" rows="4" 
-                              placeholder="Descreva detalhadamente o defeito constatado, peças substituídas e procedimentos realizados..." required><?= htmlspecialchars($descricao_val) ?></textarea>
+                              placeholder="Descreva detalhadamente o defeito constatado, peças substituídas e procedimentos realizados..." required><?= htmlspecialchars((string)$descricao_val, ENT_QUOTES, 'UTF-8') ?></textarea>
                     <div class="form-text text-secondary opacity-75 small-text">Mínimo de informações para fins de auditoria e histórico do ativo.</div>
                 </div>
 

@@ -5,9 +5,17 @@
 class ManutencaoController {
     private $db;
     private $manutencaoModel;
+    private $ativoModel;
 
     public function __construct() {
+        // Bloqueio rígido direto no Controller
+        if (!isset($_SESSION['usuario'])) {
+            header("Location: ?modulo=auth&acao=login");
+            exit;
+        }
+
         $this->db = Conexao::getConexao();
+        // Mantenha as instâncias dos models que já existem aí
         $this->manutencaoModel = new ManutencaoModel($this->db);
     }
 
@@ -87,6 +95,7 @@ class ManutencaoController {
                 exit;
             }
         } catch (PDOException $e) {
+            error_log("PDOException em ManutencaoController::salvar - " . $e->getMessage());
             $_SESSION['old_input'] = $_POST;
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Erro de integridade: Verifique se os dados fornecidos (como Categoria ou Ativo) são válidos.'];
             header("Location: ?modulo=manutencao&acao=cadastro&id_ativo=" . (int)$dados['id_ativo']);

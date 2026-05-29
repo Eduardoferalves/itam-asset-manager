@@ -106,4 +106,26 @@ class AtivoModel {
         $stmt = $this->db->prepare("DELETE FROM ativo WHERE id_ativo = :id");
         return $stmt->execute(['id' => $id]);
     }
+
+    public function patrimonioExiste(string $patrimonio, int $id_ativo_ignorar = 0): bool {
+        $sql = "SELECT COUNT(*) FROM ativo WHERE patrimonio = :patrimonio";
+        $params = ['patrimonio' => trim($patrimonio)];
+        if ($id_ativo_ignorar > 0) {
+            $sql .= " AND id_ativo != :id";
+            $params['id'] = $id_ativo_ignorar;
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function atualizarStatus(int $id_ativo, string $status): bool {
+        $stmt = $this->db->prepare("UPDATE ativo SET status = :status WHERE id_ativo = :id");
+        return $stmt->execute(['status' => $status, 'id' => $id_ativo]);
+    }
+
+    public function listarResumoAtivos(): array {
+        $stmt = $this->db->query("SELECT id_ativo, patrimonio, status FROM ativo ORDER BY patrimonio ASC");
+        return $stmt->fetchAll();
+    }
 }

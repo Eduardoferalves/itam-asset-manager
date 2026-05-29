@@ -16,10 +16,10 @@ class Conexao {
     public static function getConexao(): PDO {
         if (self::$instancia === null) {
             try {
-                $host = 'localhost';
+                $host = '127.0.0.1';
                 $dbname = 'itam_db';
                 $user = 'root';
-                $password = '';
+                $password = '2oo6Br4silia!';
 
                 $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";
                 
