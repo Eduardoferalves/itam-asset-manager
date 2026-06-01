@@ -19,7 +19,7 @@ class Conexao {
                 $host = '127.0.0.1';
                 $dbname = 'itam_db';
                 $user = 'root';
-                $password = 'coloque sua senha aqui';
+                $password = '2oo6Br4silia!';
 
                 $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";
                 

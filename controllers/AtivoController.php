@@ -239,7 +239,7 @@ class AtivoController {
             if ($e->getCode() === '23000' || strpos($e->getMessage(), '1217') !== false || strpos($e->getMessage(), '1451') !== false) {
                 $_SESSION['flash'] = [
                     'type' => 'danger',
-                    'message' => 'Este ativo possui manutenções vinculadas e não pode ser excluído do histórico.'
+                    'message' => 'Erro: Este ativo possui histórico financeiro de manutenções e não pode ser excluído. Altere o status para \'Inativo\'.'
                 ];
             } else {
                 $_SESSION['flash'] = [
