@@ -1,16 +1,23 @@
-# ITAM Asset Manager
+<div align="center">
+  <img src="https://cdn-icons-png.flaticon.com/512/2920/2920261.png" alt="ITAM Logo" width="100">
 
-Sistema de gestão de ativos de TI e governança corporativa desenvolvido como projeto acadêmico (A3) do curso de Análise e Desenvolvimento de Sistemas do Centro Universitário de Brasília (CEUB).
+  # ITAM | IT Asset Management
 
-## Índice
+  **Sistema de Gestão de Ativos de TI e Governança Corporativa**
 
-1. [Autores](#autores)
-2. [Pré-requisitos](#pré-requisitos)
-3. [Instalação](#instalação)
-4. [Uso](#uso)
-5. [Arquitetura](#arquitetura)
-6. [Segurança](#segurança)
-7. [Funcionalidades](#funcionalidades)
+  [![PHP Version](https://img.shields.io/badge/PHP-8.1+-777BB4?style=flat-square&logo=php&logoColor=white)](https://php.net/)
+  [![MySQL](https://img.shields.io/badge/MySQL-5.7+-4479A1?style=flat-square&logo=mysql&logoColor=white)](https://www.mysql.com/)
+  [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=flat-square&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+  [![License](https://img.shields.io/badge/Status-Release_v1.0-success?style=flat-square)](#)
+</div>
+
+---
+
+## 📌 Visão Geral
+
+Desenvolvido com foco estrito em conformidade corporativa e auditoria, o **ITAM (IT Asset Management)** é uma solução de gestão de ciclo de vida de hardwares. O sistema garante o rastreamento financeiro de manutenções e o controle de depreciação de equipamentos, implementando regras rigorosas de imutabilidade de banco de dados e proteção contra falhas de integridade referencial.
+
+Projeto desenvolvido para a disciplina de Desenvolvimento de Sistemas (A3) do **Centro Universitário de Brasília (CEUB)**.
 
 ## Autores
 
@@ -18,146 +25,134 @@ Sistema de gestão de ativos de TI e governança corporativa desenvolvido como p
 |------|----|----|
 | Eduardo Fernandes Alves | 22505804 | eduardo.feralves@sempreceub.com |
 | Paulo Henrique Cardoso Rocha | 22503489 | paulorocha@sempreceub.com |
+---
 
-## Pré-requisitos
+## 📋 Índice
 
-- **XAMPP 3.3.0+** (Apache)
-- **MySQL Workbench 8.0 CE** (Gerenciamento de BD)
-- **PHP 8.1+**
-- **MySQL/MariaDB 5.7+**
-- **Navegador moderno** (Chrome, Firefox, Edge)
+1. [Engenharia e Arquitetura](#-engenharia-e-arquitetura)
+2. [Governança e Segurança](#-governança-e-segurança)
+3. [Funcionalidades Core](#-funcionalidades-core)
+4. [Pré-requisitos](#-pré-requisitos)
+5. [Deploy e Instalação](#-deploy-e-instalação)
+6. [Estrutura do Projeto](#-estrutura-do-projeto)
+7. [Equipe Técnica](#-equipe-técnica)
 
-## Instalação
+---
 
-### 1. Clonar ou Extrair o Projeto
+## 🏗️ Engenharia e Arquitetura
+
+O sistema foi arquitetado utilizando o padrão **MVC (Model-View-Controller) Vanilla**, sem acoplamento a frameworks externos de back-end, garantindo alta performance e controle absoluto sobre o roteamento.
+
+- **Front Controller:** Arquitetura centralizada no `index.php` atuando como *Whitelist* de rotas, prevenindo ataques de *Local File Inclusion (LFI)*.
+- **Imutabilidade Financeira (Append-Only Log):** O módulo de manutenções atua como um livro-caixa. Os registros financeiros são imutáveis (sem suporte a *Update/Delete*), garantindo trilha de auditoria à prova de fraudes.
+- **Integridade Referencial Estrita:** O banco de dados utiliza restrições `ON DELETE RESTRICT`. A aplicação intercepta violações (`PDOException 23000`) bloqueando *Hard Deletes* de ativos com histórico financeiro, forçando o *Soft Delete* (Inativação).
+- **Design System (Single Source of Truth):** Interface baseada em **Bootstrap 5** com tipografia e paleta padronizadas (Glassmorphism UI), garantindo consistência visual em todas as *Views* (Listagens e Read-only Forms).
+
+---
+
+## 🔒 Governança e Segurança
+
+A aplicação implementa contramedidas nativas contra os principais vetores de ataque listados pela **OWASP Top 10**:
+
+| Vetor de Ataque | Mitigação Implementada |
+| :--- | :--- |
+| **SQL Injection** | `PDO Strict Mode` com *Prepared Statements* parametrizados em 100% das queries. |
+| **Cross-Site Scripting (XSS)** | Sanitização de *Outputs* via `htmlspecialchars()` e tipagem rigorosa. |
+| **Cross-Site Request Forgery (CSRF)** | Geração e validação de Tokens CSRF criptograficamente seguros em operações POST. |
+| **Broken Access Control** | Bloqueio de roteamento e redirecionamento de usuários não autenticados via sessão segura. |
+| **Session Hijacking** | Sessões configuradas com `HttpOnly`, `SameSite=Strict` e regeneração de ID. |
+
+---
+
+## ⚙️ Funcionalidades Core
+
+- 🔐 **Gestão de Identidade:** Autenticação segura com *hash* de senhas (`bcrypt`/`argon2i`).
+- 💻 **Inventário de Hardware:** CRUD completo de ativos, com controle de status, categorias, departamentos e fornecedores.
+- 🛠️ **Log de Manutenções:** Registro de serviços vinculados a custos financeiros, blindados contra edição póstuma (*Defensive UI Modal*).
+- 📊 **Relatórios Gerenciais (BI):** Geração dinâmica de faturas e consolidação de depreciação em PDF nativo via biblioteca **FPDF** (`LEFT JOIN` para cálculo de custos acumulados).
+- 🔍 **Filtros Avançados:** Buscas combinadas por *Status* (ENUM), *Categoria* (FK) e *Patrimônio* (LIKE).
+
+---
+
+## 💻 Pré-requisitos
+
+Para rodar a aplicação localmente, certifique-se de possuir o ambiente abaixo:
+
+- **Servidor Web:** XAMPP 3.3.0+ (Apache) ou servidor embutido do PHP.
+- **Linguagem:** PHP 8.1 ou superior (Extensão `PDO_MySQL` habilitada).
+- **SGBD:** MySQL 5.7+ ou MariaDB (MySQL Workbench 8.0 CE recomendado para gestão).
+
+---
+
+## 🚀 Deploy e Instalação
+
+### 1. Preparação do Ambiente
+
+Clone este repositório para dentro do diretório público do seu servidor web (ex: `htdocs` no XAMPP):
 
 ```bash
 cd C:\xampp\htdocs
-git clone <repositorio> itam-asset-manager
-# ou copiar a pasta itam-asset-manager diretamente
+git clone https://github.com/seu-usuario/itam-asset-manager.git
 ```
 
-### 2. Criar Banco de Dados (MySQL Workbench)
+### 2. Configuração do Banco de Dados
 
-1. Abra **MySQL Workbench 8.0 CE**
-2. Conecte-se ao seu servidor MySQL local
-3. Abra uma nova Query (File > New Query Tab)
-4. Importe os scripts SQL em sequência:
-   - Abra `sql/schema.sql` e execute (cria banco e tabelas)
-   - Abra `sql/seed.sql` e execute (insere dados de teste)
+Abra o MySQL Workbench e execute os scripts de infraestrutura na seguinte ordem estrita:
 
-**Alternativa via linha de comando:**
+1. `sql/schema.sql` — Realiza o build do banco `itam_db` e suas tabelas.
+2. `sql/seed.sql` — Injeta os dados mestre: Admin, Categorias, Departamentos e Fornecedores.
+
+**Alternativa via CLI:**
 
 ```bash
-cd C:\xampp\mysql\bin
 mysql -u root -p < "C:\xampp\htdocs\itam-asset-manager\sql\schema.sql"
 mysql -u root -p < "C:\xampp\htdocs\itam-asset-manager\sql\seed.sql"
 ```
 
-### 3. Iniciar Apache
+### 3. Acesso à Aplicação
 
-1. Abra **XAMPP Control Panel** (`C:\xampp\xampp-control.exe`)
-2. Clique em **Start** para Apache
-3. Aguarde o status ficar **Running** (em verde)
-
-### 4. Acessar a Aplicação
-
-Abra seu navegador e acesse:
+Certifique-se de que o Apache e o MySQL estão com o status **Running** no XAMPP e acesse via navegador:
 
 ```
 http://localhost/itam-asset-manager
 ```
 
-Você será redirecionado para a tela de login.
+**Credenciais de Acesso (Geradas via Seed):**
 
-## Uso
-
-**Credenciais Padrão:**
-
-- **Email:** `admin@itam.com`
-- **Senha:** `admin123`
-
-## Arquitetura
-
-A aplicação segue o padrão **MVC (Model-View-Controller)** com implementação nativa sem dependência de frameworks externos.
-
-**Características principais:**
-
-- **Front Controller** (`index.php`): Ponto de entrada único com roteamento dinâmico
-- **MVC Nativo**: Model, View, Controller separados sem complexidade desnecessária
-- **Padrão PRG**: Post-Redirect-Get para melhor experiência do usuário
-- **PDO Strict Mode**: Prepared statements parametrizados em todas as operações
-- **Singleton Pattern**: Gerenciamento centralizado de conexão (`conexao.php`)
-
-## Segurança
-
-A aplicação implementa contramedidas contra os principais vetores de ataque conforme OWASP Top 10:
-
-| Vetor | Mitigação |
-|-------|-----------|
-| **SQL Injection** | Prepared statements parametrizados com PDO |
-| **XSS** | Sanitização com `htmlspecialchars()` UTF-8 |
-| **CSRF** | Tokens CSRF criptograficamente seguros |
-| **Session Hijacking** | Cookies HttpOnly, SameSite=Strict, regeneração de sessão |
-
-## Funcionalidades
-
-- **Autenticação**: Login seguro com bcrypt
-- **Gestão de Ativos**: CRUD completo (cadastrar, listar, editar, excluir)
-- **Manutenção**: Registro e histórico de manutenções
-- **Relatórios**: Geração de PDFs (inventário, manutenções, departamentos)
-- **Gestão de Dados**: Departamentos, fornecedores, categorias pré-cadastrados
-
-## Estrutura do Projeto
-
-```
-itam-asset-manager/
-├── index.php                    # Front Controller
-├── conexao.php                  # Conexão PDO Singleton
-├── controllers/                 # Controladores
-│   ├── AuthController.php
-│   ├── AtivoController.php
-│   ├── ManutencaoController.php
-│   └── RelatorioController.php
-├── models/                      # Modelos de dados
-│   ├── UsuarioModel.php
-│   ├── AtivoModel.php
-│   └── ManutencaoModel.php
-├── views/                       # Camada de apresentação
-│   ├── auth/
-│   ├── ativos/
-│   ├── manutencao/
-│   ├── relatorio/
-│   └── layout/
-├── css/                         # Estilos
-├── lib/fpdf/                    # Biblioteca PDF
-└── sql/                         # Scripts do banco
-    ├── schema.sql
-    └── seed.sql
-```
-
-## Troubleshooting
-
-**Erro: "Conexão recusada"**
-- Verifique se Apache está rodando no XAMPP Control Panel
-
-**Erro: "Conexão com banco falhou"**
-- Inicie MySQL Workbench e verifique a conexão
-- Verifique se os scripts SQL foram executados
-
-**Erro 500 (Internal Server Error)**
-- Verifique `C:\xampp\apache\logs\error.log`
-- Verifique se `conexao.php` está configurado corretamente
-
-**Caracteres acentuados aparecem errados**
-- Verifique se o banco foi criado com charset `utf8mb4_unicode_ci`
-
-## Informações Acadêmicas
-
-**Projeto:** A3 - Análise e Desenvolvimento de Sistemas  
-**Instituição:** Centro Universitário de Brasília (CEUB)  
-**Data:** Maio de 2026
+| Campo | Valor |
+| :--- | :--- |
+| **Usuário** | `admin@itam.com` |
+| **Senha** | `admin123` |
 
 ---
 
-Desenvolvido com foco em excelência e conformidade com padrões de engenharia de software.
+## 📂 Estrutura do Projeto
+
+```
+itam-asset-manager/
+├── index.php                    # Front Controller / Roteador / Filtro CSRF
+├── conexao.php                  # PDO Singleton Config
+├── controllers/                 # Controladores de Domínio
+│   ├── AtivoController.php      # Lida com restrições de deleção (PDOException)
+│   ├── ManutencaoController.php # Garante regras de imutabilidade (Read-only)
+│   └── ...
+├── models/                      # Lógica de Negócio e Persistência
+├── views/                       # Camada de Apresentação (Templates)
+│   ├── layout/                  # Single Source of Truth para UI/UX
+│   └── ...
+├── sql/                         # DDL e DML do Banco de Dados
+└── lib/fpdf/                    # Engine de geração de relatórios
+```
+
+---
+
+## 🛠️ Troubleshooting
+
+**Erro `Access denied for user`**
+Verifique se as credenciais (usuário/senha) no arquivo `conexao.php` correspondem às do seu banco local.
+
+**Layout quebrado ou "Página não encontrada"**
+O sistema foi desenhado para rodar a partir da pasta `/itam-asset-manager`. Se você renomear a pasta raiz, as rotas relativas do `header.php` podem não localizar o `css/custom.css`.
+
+**Erro 500 ao gerar PDF**
+Verifique se as permissões de leitura/escrita na pasta `/lib/fpdf` estão ativas e se não há warnings no PHP bloqueando a saída de cabeçalhos.
