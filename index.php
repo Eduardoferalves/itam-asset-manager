@@ -35,7 +35,7 @@ require_once 'conexao.php';
 $rotas = [
     'auth'       => ['login', 'autenticar', 'logout'],
     'ativos'     => ['listagem', 'cadastro', 'salvar', 'editar', 'atualizar', 'excluir'],
-    'manutencao' => ['cadastro', 'salvar'],
+    'manutencao' => ['cadastro', 'salvar', 'listagem', 'show'],
     'relatorio'  => ['index', 'exportar']
 ];
 

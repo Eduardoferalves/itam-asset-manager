@@ -45,4 +45,51 @@ class ManutencaoModel {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    /**
+     * Lista manutenções com filtros de busca e ordenação
+     */
+    public function listarComFiltros($patrimonio = null, $ordemCusto = null, $ordemData = null) {
+        $sql = "SELECT m.*, a.patrimonio 
+                FROM manutencao m 
+                INNER JOIN ativo a ON m.id_ativo = a.id_ativo
+                WHERE 1=1";
+        $params = [];
+
+        if (!empty($patrimonio)) {
+            $sql .= " AND a.patrimonio LIKE :patrimonio";
+            $params['patrimonio'] = "%" . trim($patrimonio) . "%";
+        }
+
+        $orderClauses = [];
+        
+        $ordemCusto = strtoupper($ordemCusto ?? '');
+        $ordemData = strtoupper($ordemData ?? '');
+
+        if (in_array($ordemCusto, ['ASC', 'DESC'])) {
+            $orderClauses[] = "m.custo " . $ordemCusto;
+        }
+        if (in_array($ordemData, ['ASC', 'DESC'])) {
+            $orderClauses[] = "m.data_reg " . $ordemData;
+        }
+
+        if (!empty($orderClauses)) {
+            $sql .= " ORDER BY " . implode(", ", $orderClauses);
+        } else {
+            $sql .= " ORDER BY m.data_reg DESC";
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Busca uma manutenção específica pelo ID
+     */
+    public function buscarPorId($id) {
+        $stmt = $this->db->prepare("SELECT * FROM manutencao WHERE id_manutencao = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch();
+    }
 }

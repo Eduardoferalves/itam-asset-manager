@@ -37,7 +37,7 @@ $acao = $_GET['acao'] ?? '';
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center py-2 px-3 <?= ($modulo === 'manutencao') ? 'active text-info fw-bold' : '' ?>" href="?modulo=manutencao&acao=cadastro">
+                    <a class="nav-link d-flex align-items-center py-2 px-3 <?= ($modulo === 'manutencao') ? 'active text-info fw-bold' : '' ?>" href="?modulo=manutencao&acao=listagem">
                         <i class="bi bi-tools me-2"></i> Manutenções
                     </a>
                 </li>
