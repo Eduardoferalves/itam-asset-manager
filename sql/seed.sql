@@ -1,20 +1,5 @@
 USE `itam_db`;
 
--- Limpeza prévia para garantir reentrabilidade (opcional, mas bom para desenvolvimento)
-DELETE FROM `manutencao`;
-DELETE FROM `ativo`;
-DELETE FROM `categoria`;
-DELETE FROM `fornecedor`;
-DELETE FROM `departamento`;
-DELETE FROM `usuario`;
-
-ALTER TABLE `manutencao` AUTO_INCREMENT = 1;
-ALTER TABLE `ativo` AUTO_INCREMENT = 1;
-ALTER TABLE `categoria` AUTO_INCREMENT = 1;
-ALTER TABLE `fornecedor` AUTO_INCREMENT = 1;
-ALTER TABLE `departamento` AUTO_INCREMENT = 1;
-ALTER TABLE `usuario` AUTO_INCREMENT = 1;
-
 -- Inserindo Usuário Administrador Padrão (Email: admin@itam.com | Senha: admin123)
 INSERT INTO `usuario` (`id_usuario`, `nome`, `email`, `senha_hash`) VALUES
 (1, 'Administrador ITAM', 'admin@itam.com', '$2y$10$7PXFzvJd/dfEDFDevfTiB.OIzk.fc7.9ifsaoo7DiPiEnyOLLvKYy');
