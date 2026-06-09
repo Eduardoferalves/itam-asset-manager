@@ -1,4 +1,7 @@
 <?php
+// [REGRA DE NEGÓCIO] Resgate de inputs pregressos (Old Input)
+// Assegura uma melhor experiência ao usuário (UX), evitando que ele tenha que redigitar 
+// seu e-mail caso haja uma falha de validação da senha.
 $email_val = $old_input['email'] ?? '';
 ?>
 <div class="login-container">
@@ -14,7 +17,9 @@ $email_val = $old_input['email'] ?? '';
                 </div>
                 
                 <form action="?modulo=auth&acao=autenticar" method="POST">
-                    <!-- Injeção Crítica de Token CSRF -->
+                    <!-- [SEGURANÇA] Injeção estrita de Token CSRF associado à sessão atual. 
+                         Assegura que as credenciais provêm de um formulário genuíno gerado pelo nosso servidor, 
+                         neutralizando tentativas externas de submissão forjada. -->
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
                     
                     <div class="mb-3">
@@ -23,6 +28,9 @@ $email_val = $old_input['email'] ?? '';
                             <span class="input-group-text bg-transparent border-glass text-secondary">
                                 <i class="bi bi-envelope"></i>
                             </span>
+                            <!-- [SEGURANÇA] Escapamento de caracteres (XSS Prevention) através da função htmlspecialchars
+                                 com a flag ENT_QUOTES. Impede que injeções maliciosas submetidas anteriormente no campo e-mail 
+                                 sejam executadas pelo navegador durante a repopulação do formulário. -->
                             <input type="email" name="email" id="email" class="form-control form-control-glass" value="<?= htmlspecialchars((string)$email_val, ENT_QUOTES, 'UTF-8') ?>" placeholder="nome@exemplo.com" required autocomplete="email">
                         </div>
                     </div>

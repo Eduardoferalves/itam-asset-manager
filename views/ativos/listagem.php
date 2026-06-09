@@ -1,5 +1,7 @@
 <?php
-// Contar totais para o painel de estatísticas
+// [REGRA DE NEGÓCIO] Consolidação e cálculo de KPIs (Key Performance Indicators)
+// Percorre a estrutura de dados retornada pelo Controller para totalizar os status do inventário
+// em tempo real, fornecendo inteligência de negócios rápida no topo do dashboard.
 $countAtivo = 0;
 $countInativo = 0;
 $countManutencao = 0;
@@ -31,6 +33,8 @@ $countTotal = count($ativos);
                 <i class="bi bi-laptop fs-3"></i>
             </div>
             <div>
+                <!-- [SEGURANÇA] Escapamento de variáveis PHP renderizadas no HTML previne que 
+                     dados potencialmente envenenados no banco de dados reflitam ataques XSS na tela do usuário. -->
                 <h4 class="text-white mb-0"><?= htmlspecialchars((string)$countTotal, ENT_QUOTES, 'UTF-8') ?></h4>
                 <span class="text-secondary small">Total Registrado</span>
             </div>
@@ -168,7 +172,6 @@ $countTotal = count($ativos);
                                        class="btn btn-sm btn-secondary-neon text-warning" title="Registrar Manutenção">
                                         <i class="bi bi-tools"></i>
                                     </a>
-                                    <!-- Botão de exclusão seguro que dispara o modal -->
                                     <button type="button" 
                                             class="btn btn-sm btn-secondary-neon text-danger border-danger-subtle" 
                                             title="Excluir Ativo"
@@ -202,7 +205,8 @@ $countTotal = count($ativos);
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary-neon" data-bs-dismiss="modal">Cancelar</button>
                 <form action="?modulo=ativos&acao=excluir" method="POST" class="d-inline">
-                    <!-- Token CSRF Obrigatório no modal de exclusão -->
+                    <!-- [SEGURANÇA] Obrigatoriedade de Token CSRF no modal de exclusão (Mutação de Estado Destrutiva). 
+                         Evita que o usuário clique de forma não intencional ou via interceptação de scripts de terceiros. -->
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
                     <input type="hidden" name="id" id="deleteAssetId" value="">
                     <button type="submit" class="btn btn-danger px-4 border-0" style="background: var(--color-danger);">
